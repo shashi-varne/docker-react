@@ -4,5 +4,18 @@ services:
 
 before_install: # for a series of commands that are run before our tests are run
   - docker build -t shashi/docker-react -f Dockerfile.dev .
-script: # comamnds that actually need to be executed to run our test
+script: # comamnds that actually need to be executed to run our test on travis website
   - docker run -e CI=true shashi/docker-react npm run test
+
+deploy: # to deploy our project to aws 
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "docker-env"
+  bucket_name: #use s3 bucket name
+  bucket_path: # use s3 bucket url
+  on: 
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY  
+    secure: "$AWS_SECRET_KEY"
