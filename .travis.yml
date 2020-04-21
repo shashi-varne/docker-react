@@ -1,0 +1,8 @@
+sudo: required
+services: 
+  - docker #travis makes sure there is a copy of docker ready to go. 
+
+before_install: # for a series of commands that are run before our tests are run
+  - docker build -t shashi/docker-react -f Dockerfile.dev .
+script: # comamnds that actually need to be executed to run our test
+  - docker run -e CI=true shashi/docker-react npm run test
